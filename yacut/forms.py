@@ -3,7 +3,7 @@ from wtforms import StringField, SubmitField, URLField
 from wtforms.validators import URL, DataRequired, Length, Optional, Regexp
 
 from settings import Constant, Message
-from yacut_app.validators import UniqueCustomId
+from yacut.validators import UniqueCustomId
 
 
 class URLMapForm(FlaskForm):
@@ -23,15 +23,16 @@ class URLMapForm(FlaskForm):
         label='Короткий идентификатор',
         validators=(
             Optional(),
-            Length(min=Constant.SHORT_URL_LEN,
-                   max=Constant.SHORT_URL_LEN,
+            Length(min=Constant.SHORT_URL_MIN_LEN,
+                   max=Constant.SHORT_URL_MAX_LEN,
                    message=Message.SHORT_URL_LEN),
             Regexp(regex=Constant.SHORT_URL_FORMAT,
                    message=Message.SHORT_URL_FORMAT),
             UniqueCustomId()
         ),
-        description=(f'Укажите свой {Constant.SHORT_URL_LEN}-значный '
-                     'идентификатор из латинских букв и/или цифр либо '
-                     'оставьте поле пустым, чтобы сгенерировать случайный')
+        description=('Укажите свой идентификатор из латинских букв и/или цифр'
+                     f'длиной от {Constant.SHORT_URL_MIN_LEN} до '
+                     f'{Constant.SHORT_URL_MAX_LEN} символов либо оставьте '
+                     'поле пустым, чтобы сгенерировать случайный')
     )
     submit = SubmitField(label='Добавить')

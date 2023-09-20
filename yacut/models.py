@@ -1,8 +1,8 @@
 from datetime import datetime
-from typing import Any
+from typing import Optional
 
 from settings import Constant
-from yacut_app import db
+from yacut import db
 
 
 class URLMap(db.Model):
@@ -10,25 +10,23 @@ class URLMap(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     original = db.Column(db.String(Constant.ORIG_URL_MAX_LEN),
                          nullable=False)
-    short = db.Column(db.String(Constant.SHORT_URL_LEN),
+    short = db.Column(db.String(Constant.SHORT_URL_MAX_LEN),
                       unique=True,
                       nullable=False)
     timestamp = db.Column(db.DateTime,
                           index=True,
                           default=datetime.utcnow)
 
-    def to_dict(self: 'URLMap') -> dict[int, str, str, datetime]:
+    def to_dict(self: 'URLMap') -> dict[str, str]:
         return dict(
-            id=self.id,
-            original=self.original,
-            short=self.short,
-            timestamp=self.timestamp
+            url=self.original,
+            short_link=self.short
         )
 
-    def from_dict(self: 'URLMap', data: dict[Any]) -> None:
-        for field in ('original', 'short'):
+    def from_dict(self: 'URLMap', data: dict[str, Optional[str]]) -> None:
+        for field in Constant.API_DESERIALIZE:
             if field in data:
-                setattr(self, field, data[field])
+                setattr(self, Constant.API_DESERIALIZE[field], data[field])
 
     def __str__(self: 'URLMap') -> str:
         return (f'Ссылка(Кор:{self.short}, '

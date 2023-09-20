@@ -1,11 +1,11 @@
 import re
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING
 from urllib.parse import urlparse
 
 from wtforms import StringField
 from wtforms.validators import ValidationError
 
-from settings import Constant, Message
+from settings import Constant
 if TYPE_CHECKING:
     from yacut.forms import URLMapForm
 from yacut.models import URLMap

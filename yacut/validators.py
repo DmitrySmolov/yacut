@@ -5,10 +5,10 @@ from urllib.parse import urlparse
 from wtforms import StringField
 from wtforms.validators import ValidationError
 
-from settings import Constant
 if TYPE_CHECKING:
     from yacut.forms import URLMapForm
 from yacut.models import URLMap
+from yacut.settings import Constant
 
 
 class UniqueCustomId:

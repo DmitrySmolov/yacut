@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, URLField
 from wtforms.validators import URL, DataRequired, Length, Optional, Regexp
 
-from settings import Constant, Message
+from yacut.settings import Constant, Message
 from yacut.validators import UniqueCustomId
 
 

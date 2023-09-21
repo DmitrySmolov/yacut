@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import Optional
 
-from settings import Constant
 from yacut import db
+from yacut.settings import Constant
 
 
 class URLMap(db.Model):

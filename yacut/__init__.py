@@ -2,7 +2,7 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
-from settings import Config
+from yacut.settings import Config
 
 app = Flask(import_name=__name__,
             static_folder=Config.STATIC_FOLDER,

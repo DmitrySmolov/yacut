@@ -3,10 +3,10 @@ from random import choice
 
 from flask import abort, flash, redirect, render_template, Response, request
 
-from settings import Constant, Message
 from yacut import app, db
 from yacut.forms import URLMapForm
 from yacut.models import URLMap
+from yacut.settings import Constant, Message
 
 
 def get_unique_short_id() -> str:

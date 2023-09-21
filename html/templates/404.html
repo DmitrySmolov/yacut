@@ -3,15 +3,13 @@
   404. Страница не найдена.
 {% endblock title %}
 {% block content %}
-  <main>
-    <section class="container my-5 px-4">
-      <h1 class="text-center"><span style="color:red">404. </span>Страница не найдена.</h1>
-      <p class="text-center my-4">
-        Если тут что-то было, теперь этого тут нет.
-      </p>
-      <p>
-        <a href="{{ url_for('add_urlmap_view') }}">Вернуться на главную</a>
-      </p>
-    </section>
-  </main>
+  <section class="container my-5 px-4">
+    <h1 class="text-center"><span style="color:red">404. </span>Страница не найдена.</h1>
+    <p class="text-center my-4">
+      Если тут что-то было, теперь этого тут нет.
+    </p>
+    <p>
+      <a href="{{ url_for('add_urlmap_view') }}">Вернуться на главную</a>
+    </p>
+  </section>
 {% endblock content %}

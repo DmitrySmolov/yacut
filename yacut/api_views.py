@@ -2,10 +2,10 @@ from http import HTTPStatus
 
 from flask import jsonify, request, Response
 
-from settings import Message
 from yacut import app, db
 from yacut.error_handlers import InvalidAPIUsage
 from yacut.models import URLMap
+from yacut.settings import Message
 from yacut.validators import is_valid_custom_id, is_valid_url
 from yacut.views import get_full_short_url, get_unique_short_id
 
@@ -20,12 +20,20 @@ def create_id() -> Response:
         raise InvalidAPIUsage(message=Message.API_REQUIRED_FIELD)
     if not is_valid_url(data['url']):
         raise InvalidAPIUsage(message=Message.ORIG_URL_FORMAT)
+    if (
+        'custom_id' in data and
+        data['custom_id'] not in ('', None) and
+        not is_valid_custom_id(data['custom_id'])
+    ):
+        raise InvalidAPIUsage(message=Message.API_BAD_CUSTOM_ID)
+    if (
+        'custom_id' in data and
+        data['custom_id'] not in ('', None) and
+        URLMap.query.filter_by(short=data['custom_id']).first() is not None
+    ):
+        raise InvalidAPIUsage(message=f'Имя "{data["custom_id"]}" уже занято.')
     if 'custom_id' not in data or not data['custom_id']:
         data['custom_id'] = get_unique_short_id()
-    if not is_valid_custom_id(data['custom_id']):
-        raise InvalidAPIUsage(message=Message.API_BAD_CUSTOM_ID)
-    if URLMap.query.filter_by(short=data['custom_id']).first() is not None:
-        raise InvalidAPIUsage(message=f'Имя "{data["custom_id"]}" уже занято.')
     url_map = URLMap()
     url_map.from_dict(data)
     db.session.add(url_map)
